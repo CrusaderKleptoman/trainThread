@@ -11,12 +11,12 @@ public class FirstThread implements Runnable{
     @Override
     public void run() {
         for (int i = 0; i < 30; i++) {
-            numberForBuffer = ThreadLocalRandom.current().nextDouble(-1, 1);
             synchronized (buffer)
             {
+                numberForBuffer = ThreadLocalRandom.current().nextDouble(-1, 1);
                 if (buffer.getSize() >= buffer.getN()) {
                     try {
-                        System.out.println("Поток остановлен");
+                        System.out.println("Поток 1 остановлен");
                         buffer.wait();
                     } catch (InterruptedException e) {}
                 }

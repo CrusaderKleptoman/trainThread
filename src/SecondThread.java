@@ -13,12 +13,18 @@ public class SecondThread implements Runnable{
             {
                 if (buffer.getSize() == 0) {
                     try {
+                        System.out.println("Поток 2 остановлен");
                         buffer.wait();
                     } catch (InterruptedException e) {}
                 }
                 numberFromBuffer = buffer.removeElement();
                 System.out.println("Поток 2, квадрат = " + numberFromBuffer*numberFromBuffer);
                 buffer.notify();
+            }
+            try{
+                Thread.sleep(1000);
+            } catch (InterruptedException e){
+
             }
         }
 
