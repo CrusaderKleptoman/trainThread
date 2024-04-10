@@ -18,8 +18,8 @@ public class Buffer {
     }
     public double removeElement()
     {
-        double returnElement = arrayList.get(arrayList.size()-1);
-        arrayList.remove(arrayList.size()-1);
+        double returnElement = arrayList.get(0);
+        arrayList.remove(0);
         return returnElement;
     }
 }
