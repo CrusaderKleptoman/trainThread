@@ -15,18 +15,11 @@ public class FirstThread implements Runnable{
             {
                 numberForBuffer = ThreadLocalRandom.current().nextDouble(-1, 1);
                 if (buffer.getSize() >= buffer.getN()) {
-                    try {
-                        System.out.println("Поток 1 остановлен");
-                        buffer.wait();
-                    } catch (InterruptedException e) {}
+                    i--;
+                    continue;
                 }
                 buffer.addElement(numberForBuffer);
-                buffer.notify();
-            }
-            System.out.println("Поток 1, сгенерированное число = " + numberForBuffer);
-            try{
-                Thread.sleep(100);
-            } catch (InterruptedException e){
+                System.out.println("Поток 1, №" + (i+1) + " сгенерированное число = " + numberForBuffer);
 
             }
         }
