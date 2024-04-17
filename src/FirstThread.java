@@ -1,8 +1,8 @@
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FirstThread implements Runnable{
-    double numberForBuffer;
-    Buffer buffer;
+    private double numberForBuffer;
+    private Buffer buffer;
 
     public FirstThread(Buffer buffer) {
         this.buffer = buffer;

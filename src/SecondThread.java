@@ -1,7 +1,7 @@
 public class SecondThread implements Runnable{
-    Buffer buffer;
-    double numberFromBuffer;
-    int count = 1;
+    private Buffer buffer;
+    private double numberFromBuffer;
+    private int count = 1;
 
     public SecondThread(Buffer buffer) {
         this.buffer = buffer;
