@@ -11,16 +11,17 @@ public class FirstThread implements Runnable{
     @Override
     public void run() {
         for (int i = 0; i < 30; i++) {
+            numberForBuffer = ThreadLocalRandom.current().nextDouble(-1, 1);
             synchronized (buffer)
             {
-                numberForBuffer = ThreadLocalRandom.current().nextDouble(-1, 1);
-                if (buffer.getSize() >= buffer.getN()) {
-                    i--;
-                    continue;
-                }
-                buffer.addElement(numberForBuffer);
-                System.out.println("Поток 1, №" + (i+1) + " сгенерированное число = " + numberForBuffer);
+                while (buffer.getSize() >= buffer.getN())
+                    try {
+                        buffer.wait();
+                    } catch (InterruptedException e) {}
 
+                buffer.addElement(numberForBuffer);
+                System.out.println("Thread 1, N" + (i+1) + " generated number = " + numberForBuffer);
+                buffer.notify();
             }
         }
     }

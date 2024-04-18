@@ -1,6 +1,5 @@
 public class SecondThread implements Runnable{
     private Buffer buffer;
-    private double numberFromBuffer;
     private int count = 1;
 
     public SecondThread(Buffer buffer) {
@@ -9,10 +8,17 @@ public class SecondThread implements Runnable{
 
     @Override
     public void run() {
-        while(true) {
-            if (buffer.getSize() != 0) {
-                numberFromBuffer = buffer.removeElement();
-                System.out.println("Поток 2, №" + count++ + " квадрат = " + numberFromBuffer * numberFromBuffer);
+        while (true) {
+            synchronized (buffer) {
+
+                while(buffer.getSize() == 0) {
+                    try {
+                        buffer.wait();
+                    } catch (InterruptedException e) {}
+                }
+                
+                System.out.println("Thread 2, N" + count++ + " square = " + Math.pow(buffer.removeElement(), 2) );
+                buffer.notify();
             }
         }
     }
