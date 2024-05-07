@@ -1,25 +1,26 @@
-public class SecondThread implements Runnable{
-    private Buffer buffer;
-    private int count = 1;
+import java.util.ArrayList;
 
-    public SecondThread(Buffer buffer) {
-        this.buffer = buffer;
+public class SecondThread implements Runnable{
+    private ArrayList<Double> bufferForThread;
+
+    public SecondThread(ArrayList<Double> bufferForThread) {
+        this.bufferForThread = bufferForThread;
     }
 
     @Override
     public void run() {
-        while (true) {
-            synchronized (buffer) {
-
-                while(buffer.getSize() == 0) {
+        for (int i = 0; i < 30; i++) {
+            synchronized (bufferForThread) {
+                while(bufferForThread.isEmpty()) {
                     try {
-                        buffer.wait();
+                        bufferForThread.wait();
                     } catch (InterruptedException e) {}
                 }
-                
-                System.out.println("Thread 2, N" + count++ + " square = " + Math.pow(buffer.removeElement(), 2) );
-                buffer.notify();
+                System.out.println("Thread 2, N" + (i+1) + " square = " + Math.pow(bufferForThread.get(0), 2) );
+                bufferForThread.remove(0);
+                bufferForThread.notify();
             }
         }
+        Thread.currentThread().interrupt();
     }
 }

@@ -1,28 +1,30 @@
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FirstThread implements Runnable{
     private double numberForBuffer;
-    private Buffer buffer;
+    private ArrayList<Double> bufferForThread;
 
-    public FirstThread(Buffer buffer) {
-        this.buffer = buffer;
+    public FirstThread(ArrayList<Double> bufferForThread) {
+        this.bufferForThread = bufferForThread;
     }
 
     @Override
     public void run() {
         for (int i = 0; i < 30; i++) {
             numberForBuffer = ThreadLocalRandom.current().nextDouble(-1, 1);
-            synchronized (buffer)
+            synchronized (bufferForThread)
             {
-                while (buffer.getSize() >= buffer.getN())
+                while (bufferForThread.size() >= 2)
                     try {
-                        buffer.wait();
+                        bufferForThread.wait();
                     } catch (InterruptedException e) {}
 
-                buffer.addElement(numberForBuffer);
+                bufferForThread.add(numberForBuffer);
                 System.out.println("Thread 1, N" + (i+1) + " generated number = " + numberForBuffer);
-                buffer.notify();
+                bufferForThread.notify();
             }
         }
+        Thread.currentThread().interrupt();
     }
 }
